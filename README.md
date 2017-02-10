@@ -81,7 +81,7 @@ For querying from/to MySQL database, we need to use `DbContext` class for our DA
 
 4) Press next, choose connection we set earlier, and press `Next`
 
-5) Select table for our entity context, and click `Finish`
+5) Select table for our entity context's model, and click `Finish`
 
 6) This will aoutomatically added connection string on `web.config`, if dont, copy and paste below code inside `web.config` before closing tag `</configuration>` :
 
@@ -89,9 +89,34 @@ For querying from/to MySQL database, we need to use `DbContext` class for our DA
 <configuration>
 ...
   <connectionStrings>
-    <add name="localhostJer" connectionString="server=localhost;user id=root;database=test" providerName="MySql.Data.MySqlClient" />       </connectionStrings>
+    <add name="localhostJer" connectionString="server=localhost;user id=root;database=test" providerName="MySql.Data.MySqlClient" /></connectionStrings>
 ....
 </configuration>
+```
+
+7) After finish, there is should be one file created with the name you create before. Move those files into `Models` directory. And change the namespace to react with the correct Models's namespace. In my case, if i create `User` model during above step, below code should be created automatically, and the fields of class should match with fields/column in our databse's table :
+
+```java
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Spatial;
+
+namespace Cuba2.Models // move to Models's folder, and change the namespace
+{   
+
+    [Table("test.user")] // data annotation. Set table's name
+    public partial class User
+    {
+        [Key] // primary key
+        public int user_id { get; set; }
+
+        [Required]
+        [StringLength(255)]
+        public string user_name { get; set; }
+    }
+}
 ```
 
 
