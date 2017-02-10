@@ -1,4 +1,5 @@
 # Setup Description
+ASP.NET(c#) MVC framework with MYSQL database and Entity Framework. This step by step documentation extract only importants configuration in order to make our application running and start correctly. For advance usage you may find it out on microsoft's and mysql's documentation. 
 
 # Require Installer
 Download all the required installer
@@ -123,6 +124,7 @@ namespace Cuba2.Models // move to Models's folder, and change the namespace
 This class is a normal java class that extend DbContext's class. This class become a bridge to communicate with Entity Model class that we created before. So we didnt directly call the members of Entity Model Class. To start:
 
 1) Create new folder under root project call `DAL`
+
 2) Create new blank class file name OurTable.cs. And paste this below code :
 
 ```java
@@ -152,13 +154,26 @@ Finally this controller call the dbcontext configuration inside Context Class th
 2) Create new method :
 
 ```java
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using Cuba2.DAL;
+using System.Diagnostics;
+
+....
+....
+
 public ActionResult Testing ()
 {
+    // use using, for auto dispose memory after used
     using (var context = new TableContext()) // call table context we defined earlier
     {
         var customers = context.Users.ToList(); // call user properties. toList() is an entity framework provided to get all users
         foreach (var cust in customers)
         {
+            // use Debug for write down output inside output tab/panel
             Debug.WriteLine(cust.user_id + " " + cust.user_name); // finally access the properties
         }
 
