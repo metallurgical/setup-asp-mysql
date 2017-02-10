@@ -40,8 +40,30 @@ Once the project successfully finished installed, we need to install 2 dependenc
 1) For this tutorial, we install EF6. Open nuget package manager. We have 2 options for NuGet package installation as follow :
   - Using Package Manager Console. Find **Tools > NuGet Package Manager > Package Manager Console**. After clicking on this, new panel will showing up at the buttom of application, from the console we can install directly package using command. Install these 2 package for our project.
     - Entity Framework : `Install-Package EntityFramework`
-    - MySql Data Entity : `MySql.Data.Entity` . After install this, new files should be added under our project directories on **references**'s folder. This directories exist under solution explorer. These two files are `MySQL.Data` and `MySQL.Data.Entity.EF6`.
+    - MySql Data Entity : `Install-Package MySql.Data.Entity` . After install this, new files should be added under our project directories on **references**'s folder. This directories exist under solution explorer. These two files are `MySQL.Data` and `MySQL.Data.Entity.EF6`.
     
   - Using NuGet Package Manager Searching Window. To open, right click our project name under `solution explorer menu`, and choose `Manage NuGet Package`. New windows will open and do searching for these below pacakge inside search Box :
     - Entity Framework(v6.1.3 - at the time of writing), and
     - MySql.Data.Entity(v6.9.9 - at the time of writing)
+    
+# Manage Web.config with our mysql connection and entity framework
+Open `web.config` file located under our project. You may find this file under `solution explorer` panel. Copy and paste this setting into `web.config` before closing tag `</configuration>`.
+
+```xml
+<entityFramework>
+    <defaultConnectionFactory type="System.Data.Entity.Infrastructure.LocalDbConnectionFactory, EntityFramework">
+      <parameters>
+        <parameter value="mssqllocaldb" />
+      </parameters>
+    </defaultConnectionFactory>
+    <providers>
+      <provider invariantName="System.Data.SqlClient" type="System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer" />
+    <provider invariantName="MySql.Data.MySqlClient" type="MySql.Data.MySqlClient.MySqlProviderServices, MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d"></provider></providers>
+  `</entityFramework>
+<system.data>
+    <DbProviderFactories>
+      <remove invariant="MySql.Data.MySqlClient" />
+      <add name="MySQL Data Provider" invariant="MySql.Data.MySqlClient" description=".Net Framework Data Provider for MySQL" type="MySql.Data.MySqlClient.MySqlClientFactory, MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d" />
+    </DbProviderFactories>
+  </system.data>
+```
