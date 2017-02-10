@@ -72,7 +72,7 @@ Open `web.config` file located under our project. You may find this file under `
     </system.data>
 </configuration>
 ```
-# Adding database connection
+# Adding database connection(Optional)
 From server explored, find `Data Connection` and right click add connection. You can create MysqlData source from this window.
 
 # Adding ADO.NET Entity Data Model
