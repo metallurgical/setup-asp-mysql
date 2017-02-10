@@ -119,4 +119,53 @@ namespace Cuba2.Models // move to Models's folder, and change the namespace
 }
 ```
 
+# Adding DAL(Data Access Layer) POCO(Plain Old CLR Object)
+This class is a normal java class that extend DbContext's class. This class become a bridge to communicate with Entity Model class that we created before. So we didnt directly call the members of Entity Model Class. To start:
 
+1) Create new folder under root project call `DAL`
+2) Create new blank class file name OurTable.cs. And paste this below code :
+
+```java
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Web;
+using Cuba2.Models;
+
+namespace Cuba2.DAL
+{
+    public class OurTable : DbContext // extend DbCOntext
+    {
+        public OurTable() : base("name=localhostJer") { } // name = is connection string define in web.config
+
+        public DbSet<User> Users { get; set; } // this is our set of data communication
+    }
+}
+```
+
+# Calling Context from Controller
+Finally this controller call the dbcontext configuration inside Context Class that we created on DAL folder. To test our connection working or not :
+
+1) Open `HomeController`
+
+2) Create new method :
+
+```java
+public ActionResult Testing ()
+{
+    using (var context = new TableContext()) // call table context we defined earlier
+    {
+        var customers = context.Users.ToList(); // call user properties. toList() is an entity framework provided to get all users
+        foreach (var cust in customers)
+        {
+            Debug.WriteLine(cust.user_id + " " + cust.user_name); // finally access the properties
+        }
+
+    }
+
+    return View();
+}
+```
+
+3) By this time, when we compile the code and run, we should see the result on Output Tab. 
